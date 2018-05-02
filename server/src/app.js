@@ -7,9 +7,9 @@ const app = express()
 app.use(morgan('combined'))
 app.use(bodyParser.json()) // let express app to parse json request
 app.use(cors()) // let any host get access this
-app.get('/status', (req, res) => {
+app.post('/register', (req, res) => {
   res.send({
-    message: 'hello'
+    message: `register done ${req.body.email}`
   })
 })
 app.listen(process.env.PORT || 8081)
