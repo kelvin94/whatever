@@ -1,5 +1,5 @@
 // setup a dedicated module for making ajax calls to our backend
-import axios from 'axios';
+import axios from 'axios'
 
 export default () => {
   // return an Axios connector, a connector to interact with the backend
