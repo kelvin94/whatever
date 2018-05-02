@@ -31,9 +31,9 @@ import AuthenticationService from '@/services/AuthenticationService'
         password: ''
       }
     },
-    methods: {
+    methods: { 
       async register() {
-        // await
+        // The await operator is used to wait for a Promise. It can only be used inside an async function.
         const response = await AuthenticationService.register({
           email: this.email,
           password: this.password
