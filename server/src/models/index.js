@@ -18,14 +18,13 @@ fs
     file !== 'index.js'
   )
   .forEach((file) => {
-    // import method takes a url to import a model file
+    // import method takes a url to import a model file, meaning loading all models file to sequelize instance
     const model = sequelize.import(path.join(__dirname, file))
     db[model.name] = model
   })
 
 // gave access to both 'sequelize' and 'Sequelize' object in other files that are importing this index.js file
-
-db.sequelize = sequelize
-db.Sequelize = Sequelize
+db.sequelize = sequelize // this is attaching the sequelize object we created in this file
+db.Sequelize = Sequelize // this is attaching the Sequelize Library we imported at the top of the file
 
 module.exports = db
