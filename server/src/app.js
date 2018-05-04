@@ -12,6 +12,7 @@ app.use(cors()) // let any host get access this
 require('./routes')(app) // 这里可以这样是因为routes.js export a function which takes an express instance as argument
 
 // sequelize.sync will connect to the database, create the table if the table is not existed
+// sequelize.sync({ force: true}) 这个是用来drop all tables in the database
 sequelize.sync()
   .then(() => {
     app.listen(process.env.PORT || 8081)

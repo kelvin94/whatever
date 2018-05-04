@@ -1,4 +1,5 @@
 // setup a dedicated module for making ajax calls to our backend
+// initalize/configure axios instance
 import axios from 'axios'
 
 export default () => {

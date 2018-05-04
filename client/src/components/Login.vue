@@ -1,8 +1,8 @@
 <template>
   <v-layout column>
     <v-flex xs6 offset-xs3>
-        <panel title="Register">
-        <form name="tab-tracker-form" autocomplete="off">
+        <panel title="Login">
+        <div class="pl-r pr-4 pt-2 pb-2">
           <v-text-field
             label="email"
             v-model="email"
@@ -24,11 +24,11 @@
           </div>
           <v-btn
             class="cyan"
-            @click="register"
+            @click="login"
           >
-            Register
+            Login
           </v-btn>
-        </form>
+        </div>
       </panel>
     </v-flex>
   </v-layout>
@@ -38,6 +38,7 @@
 import AuthenticationService from '@/services/AuthenticationService'
 import Panel from '@/components/Panel'
 
+import {mapActions} from 'vuex'
   export default {
     data() {
       return {
@@ -47,18 +48,24 @@ import Panel from '@/components/Panel'
       }
     },
     methods: {
-      async register() {
+      ...mapActions({
+        setToken: 'setToken',
+        setUser: 'setUser'
+      }),
+      async login() {
         // The await operator is used to wait for a Promise. It can only be used inside an async function.
         try {
-           await AuthenticationService.register({
+           const response = await AuthenticationService.login({
             email: this.email,
             password: this.password
           });
+          this.setToken(response.data.token)
+          this.setUser(response.data.user)
           // console.log('response', response.data);
         } catch (err) {
           console.log('err obj ',err)
-          console.log('err obj.respon ',err.response)
-          console.log('err obj.response.data ', err.response.data)
+          // console.log('err obj.respon ',err.response)
+          // console.log('err obj.response.data ', err.response.data)
           this.error = err.response.data.error;
         }
       }
