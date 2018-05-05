@@ -23,5 +23,29 @@ module.exports = {
         error: 'error pops up in songs controller index action'
       })
     }
+  },
+  async show (req, res) {
+    try {
+      const song = await Song.findById(req.params.songId)
+      res.send(song)
+    } catch (error) {
+      res.status(500).send({
+        error: 'error pops up in songs controller index action'
+      })
+    }
+  },
+  async put (req, res) {
+    try {
+      const song = await Song.update(req.body, {
+        where: {
+          id: req.params.songId
+        }
+      })
+      res.send(song)
+    } catch (error) {
+      res.status(500).send({
+        error: 'error pops up in songs controller put action'
+      })
+    }
   }
 }

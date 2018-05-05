@@ -22,7 +22,7 @@
                 <div class="song-genre">
                   {{song.album}}   
                 </div>
-                <router-link to="{ name: 'song', params: {songId: song.id }}">
+                <router-link :to="{ name: 'song', params: {songId: song.id }}">
                   <v-btn
                     dark
                     class="cyan"

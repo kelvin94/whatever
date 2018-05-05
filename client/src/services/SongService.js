@@ -8,5 +8,11 @@ export default {
   },
   createSong (songMetaData) {
     return Api().post('songs', songMetaData)
+  },
+  show (songId) {
+    return Api().get(`songs/${songId}`)
+  },
+  put (song) {
+    return Api().put(`songs/${song.id}`, song)
   }
 }
