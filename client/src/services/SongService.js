@@ -5,5 +5,8 @@ export default {
   index () {
     // 这里Api要带括号来用是因为在Api.js里面我们是当作function来export
     return Api().get('songs')
+  },
+  createSong (songMetaData) {
+    return Api().post('songs', songMetaData)
   }
 }
