@@ -36,6 +36,7 @@
 
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
+import {mapActions} from 'vuex'
 
   export default {
     data() {
@@ -46,19 +47,22 @@ import AuthenticationService from '@/services/AuthenticationService'
       }
     },
     methods: {
+      ...mapActions({
+        setToken: 'setToken',
+        setUser: 'setUser'
+      }),
       async register() {
         // The await operator is used to wait for a Promise. It can only be used inside an async function.
         try {
-           await AuthenticationService.register({
+           const response = await AuthenticationService.register({
             email: this.email,
             password: this.password
           });
-          // console.log('response', response.data);
+          this.setToken(response.data.token)
+          this.setUser(response.data.user)
+          this.$router.push({ name: 'songs' })
         } catch (err) {
-          console.log('err obj ',err)
-          console.log('err obj.respon ',err.response)
-          console.log('err obj.response.data ', err.response.data)
-          this.error = err.response.data.error;
+          this.error = err.response.data.error
         }
       }
     }

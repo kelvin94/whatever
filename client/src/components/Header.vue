@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar fixed class="cyan">
-      <router-link :to="{name: 'root'}">
+      <router-link :to="{name: 'songs'}">
         <v-toolbar-title class="mr-4">
           tab tracker
         </v-toolbar-title>
@@ -49,7 +49,7 @@ import {mapActions} from 'vuex'
       logout() {
         this.commitLogout();
         this.$router.push({
-          name: 'root'
+          name: 'songs'
         })
       }
     }

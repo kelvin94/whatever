@@ -14,13 +14,13 @@
           >
           </v-text-field>
           <br>
-          <div v-if="error">
-            <p>Error is here: {{ error }}</p>
+          <div class="danger-alert" v-if="error">
+            <p class="danger-alert">Error is here: {{ error }}</p>
 
           </div>
           <hr>
           <div v-if="error !== null">
-            <p>Error second usage of v-if: {{ error }}</p>
+            <p class="danger-alert">Error second usage of v-if: {{ error }}</p>
           </div>
           <v-btn
             class="cyan"
@@ -60,6 +60,7 @@ import {mapActions} from 'vuex'
           });
           this.setToken(response.data.token)
           this.setUser(response.data.user)
+          this.$router.push({ name: 'songs' })
           // console.log('response', response.data);
         } catch (err) {
           console.log('err obj ',err)
