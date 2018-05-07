@@ -25,7 +25,6 @@
  
 <script>
 import SongService from '@/services/SongService'
-import Panel from '@/components/Panel'
 import SongMetadata from '@/components/ViewSong/SongMetadata'
 import Lyrics from '@/components/ViewSong/Lyrics'
 import Tab from '@/components/ViewSong/Tab'
@@ -44,7 +43,6 @@ import YouTube from '@/components/ViewSong/YouTube'
       this.song = songFromApi.data
     },
     components: {
-      Panel,
       SongMetadata,
       YouTube,
       Lyrics,

@@ -70,7 +70,6 @@
 </template>
 
 <script>
-import Panel from '@/components/Panel'
 import SongServie from '@/services/SongService'
 import { mapActions } from 'vuex';
   export default {
@@ -101,7 +100,7 @@ import { mapActions } from 'vuex';
         try {
           await SongServie.put(this.song);
           this.$router.push({
-            name: 'songs-edit',
+            name: 'song',
             params: {
               songId: songId
             }
@@ -121,9 +120,6 @@ import { mapActions } from 'vuex';
         } catch (error){
           console.log(error)
         }
-    },
-    components: {
-      Panel
     }
   }
 </script>

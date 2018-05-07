@@ -70,7 +70,6 @@
 </template>
 
 <script>
-import Panel from '@/components/Panel'
 import SongServie from '@/services/SongService'
 import { mapActions } from 'vuex';
   export default {
@@ -108,9 +107,6 @@ import { mapActions } from 'vuex';
       required (value) {
         return !!value || 'Required.'
       }
-    },
-    components: {
-      Panel
     }
   }
 </script>

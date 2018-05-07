@@ -36,7 +36,6 @@
 
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
-import Panel from '@/components/Panel'
 
 import {mapActions} from 'vuex'
   export default {
@@ -69,9 +68,6 @@ import {mapActions} from 'vuex'
           this.error = err.response.data.error;
         }
       }
-    },
-    components: {
-      Panel
     }
   }
 </script>
