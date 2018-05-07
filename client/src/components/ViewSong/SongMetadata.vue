@@ -11,10 +11,19 @@
         <div class="song-genre">
           {{song.genre}}   
         </div>
-        <router-link :to="{
+        <!-- <router-link :to="{
           name: 'songs-edit',
           params: {
             songId: song.id
+          }
+        }"> -->
+        <!-- 下面这个router link不能像上面那样做是因为songId是props from index.vue, 然而当这个component在mount到Dom的时候props还没传到这个child component所以在console里就会有warning, 下面把params变成function能解决这个问题是因为function不会自动execute -->
+        <router-link :to="{
+          name: 'songs-edit',
+          params() {
+            return {
+              songId: song.id
+            }
           }
         }">
           <v-btn
