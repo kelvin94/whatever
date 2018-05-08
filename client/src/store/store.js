@@ -1,10 +1,12 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex) // use Vuex allows vue instance to have access to components
 
 export default new Vuex.Store({
   strict: true, // strict: true enforces state mutations to be done via actions
+  plugins: [createPersistedState()],
   state: {
     user: null,
     token: null,
