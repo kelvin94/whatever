@@ -36,8 +36,8 @@
         <v-btn
           dark
           class="cyan"
-          v-if="isUserLoggedIn  && !this.isBookmarked"
-          @click="bookmark"
+          v-if="isUserLoggedIn  && !bookmark"
+          @click="setBookmark"
         >
           Bookmark
         </v-btn>
@@ -45,8 +45,8 @@
         <v-btn
           dark
           class="cyan"
-          v-if="isUserLoggedIn && this.isBookmarked"
-          @click="unbookmark"
+          v-if="isUserLoggedIn && bookmark"
+          @click="unsetBookmark"
         >
           Unbookmark
         </v-btn>
@@ -69,7 +69,7 @@ import BookmarksService from '@/services/BookmarksService'
     props: ['song'],
     data() {
       return {
-        isBookmarked: false
+        bookmark: null
       }
     },
     components: {
@@ -80,21 +80,40 @@ import BookmarksService from '@/services/BookmarksService'
       })
     },
     methods: {
-      bookmark() {
-        console.log('bookmark')
+      async setBookmark() {
+        try {
+          this.bookmark = (await BookmarksService.post({
+            songId: this.song.id,
+            userId: this.$store.state.user.id
+          })).data
+        } catch (error) {
+          console.log('bookmark err')
+        }
       },
-      unbookmark() {
-        console.log('unbookmark')
-
+      async unsetBookmark() {
+        try {
+          await BookmarksService.delete(this.bookmark.id)
+          this.bookmark = null
+        } catch (error) {
+          console.log('unbookmark failed')
+        }
       }
     },
-    async mounted() {
-      const bookmark = (await BookmarksService.index({
-        songId: this.song.id,
-        userId: this.$store.state.user.id
-      })).data
-      this.isBookmarked = !!bookmark // cast bookmark to true or false
-      console.log('bookmark response', bookmark)
+    watch: {
+      async song () {
+        if(!this.isUserLoggedIn) {
+          return
+        }
+        try {
+          this.bookmark = (await BookmarksService.index({
+            songId: this.song.id,
+            userId: this.$store.state.user.id
+          })).data
+          console.log('watch whether user bookmark the current song', this.bookmark)
+        } catch (error) {
+          console.log('error when getting bookmarks in mounted hook')
+        }
+      }
     }
   }
 </script>
