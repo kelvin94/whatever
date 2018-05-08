@@ -6,6 +6,7 @@ module.exports = {
     try {
       const songId = req.query.songId
       const userId = req.query.userId
+
       const bookmark = await Bookmark.findOne({
         where: {
           SongId: songId,
