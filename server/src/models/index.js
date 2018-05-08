@@ -23,6 +23,13 @@ fs
     db[model.name] = model
   })
 
+// models that have association b/t them
+Object.keys(db).forEach(function (modelName) {
+  if ('associate' in db[modelName]) {
+    db[modelName].associate(db)
+  }
+})
+
 // gave access to both 'sequelize' and 'Sequelize' object in other files that are importing this index.js file
 db.sequelize = sequelize // this is attaching the sequelize object we created in this file
 db.Sequelize = Sequelize // this is attaching the Sequelize Library we imported at the top of the file
