@@ -3,13 +3,13 @@
     <v-layout>
       <v-flex xs6>
         <div class="song-title">
-          {{song.title}}
+          Title: {{song.title}}
         </div>
         <div class="song-artist">
-          {{song.artist}}
+          Artist: {{song.artist}}
         </div>
         <div class="song-genre">
-          {{song.genre}}   
+          Genre: {{song.genre}}   
         </div>
         <!-- <router-link :to="{
           name: 'songs-edit',
@@ -33,6 +33,24 @@
             Edit
           </v-btn>
         </router-link>
+        <v-btn
+          dark
+          class="cyan"
+          v-if="isUserLoggedIn  && !this.isBookmarked"
+          @click="bookmark"
+        >
+          Bookmark
+        </v-btn>
+
+        <v-btn
+          dark
+          class="cyan"
+          v-if="isUserLoggedIn && this.isBookmarked"
+          @click="unbookmark"
+        >
+          Unbookmark
+        </v-btn>
+
       </v-flex>
       <v-flex xs6>
         <img :src="song.albumImageUrl" class="album-image" alt=""/>
@@ -44,9 +62,39 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
+import BookmarksService from '@/services/BookmarksService'
+
   export default {
     props: ['song'],
+    data() {
+      return {
+        isBookmarked: false
+      }
+    },
     components: {
+    },
+    computed: {
+      ...mapState({
+        isUserLoggedIn: 'isUserLoggedIn'
+      })
+    },
+    methods: {
+      bookmark() {
+        console.log('bookmark')
+      },
+      unbookmark() {
+        console.log('unbookmark')
+
+      }
+    },
+    async mounted() {
+      const bookmark = (await BookmarksService.index({
+        songId: this.song.id,
+        userId: this.$store.state.user.id
+      })).data
+      this.isBookmarked = !!bookmark // cast bookmark to true or false
+      console.log('bookmark response', bookmark)
     }
   }
 </script>
