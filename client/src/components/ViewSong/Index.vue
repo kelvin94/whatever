@@ -29,18 +29,34 @@ import SongMetadata from '@/components/ViewSong/SongMetadata'
 import Lyrics from '@/components/ViewSong/Lyrics'
 import Tab from '@/components/ViewSong/Tab'
 import YouTube from '@/components/ViewSong/YouTube'
+import SongHistoryService from '@/services/SongHistoryService'
+import {mapState} from 'vuex'
   export default {
     data() {
       return {
         song: {}
       }
     },
+    computed: {
+      ...mapState([
+        'isUserLoggedIn',
+        'user',
+        'route'
+      ])
+    },
     async mounted() {
       // get the song id
-      const songId = this.$store.state.route.params.songId // store has synced with router via vuex-router-sync
+      const songId = this.route.params.songId // store has synced with router via vuex-router-sync
       const songFromApi = await SongService.show(songId)
       console.log(songFromApi)
       this.song = songFromApi.data
+
+      if(this.isUserLoggedIn) {
+        SongHistoryService.post({
+          songId: songId,
+          userId: this.user.id
+        })
+      }
     },
     components: {
       SongMetadata,

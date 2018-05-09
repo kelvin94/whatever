@@ -4,12 +4,14 @@ const {
   sequelize,
   Song,
   User,
-  Bookmark
+  Bookmark,
+  History
 } = require('../src/models') // why we can require entire folder? Answer: https://stackoverflow.com/questions/5364928/node-js-require-all-files-in-a-folder
 
 const songs = require('./songs.json')
 const users = require('./users.json')
 const bookmarks = require('./bookmarks.json')
+const histories = require('./histories.json')
 const Promise = require('bluebird')
 sequelize.sync({force: true})
   .then(async function () {
@@ -31,6 +33,13 @@ sequelize.sync({force: true})
       // using 'map' to loop through the user array in users.json
       bookmarks.map(bmark => {
         Bookmark.create(bmark)
+      })
+    )
+
+    await Promise.all(
+      // using 'map' to loop through the user array in users.json
+      histories.map(history => {
+        History.create(history)
       })
     )
   })

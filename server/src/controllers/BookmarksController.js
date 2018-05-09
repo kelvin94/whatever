@@ -1,5 +1,6 @@
 const {Bookmark} = require('../models')
-
+const {Song} = require('../models')
+const _ = require('lodash')
 module.exports = {
 
   async index (req, res) {
@@ -7,14 +8,26 @@ module.exports = {
       console.log('backend index action req.query', req.query)
       const songId = req.query.songId
       const userId = req.query.userId
-      const bookmark = await Bookmark.findOne({
-        where: {
-          SongId: songId,
-          UserId: userId
-        }
-      })
-      console.log('bookmark', bookmark)
-      res.send(bookmark)
+      const where = {
+        UserId: userId
+      }
+      if (songId) {
+        where.SongId = songId
+      }
+      const bookmarks = await Bookmark.findAll({
+        where: where,
+        // using include to associate with other model
+        include: [
+          {
+            model: Song
+          }
+        ]
+      }).map(bookmark => bookmark.toJSON()).map(bookmark => _.extend(
+        {},
+        bookmark.Song,
+        bookmark))
+      console.log('bookmark', bookmarks)
+      res.send(bookmarks)
     } catch (error) {
       res.status(500).send({
         error: 'error pops up in bookmark controller index action'

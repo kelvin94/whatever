@@ -76,7 +76,8 @@ import BookmarksService from '@/services/BookmarksService'
     },
     computed: {
       ...mapState({
-        isUserLoggedIn: 'isUserLoggedIn'
+        isUserLoggedIn: 'isUserLoggedIn',
+        user: 'user'
       })
     },
     methods: {
@@ -84,7 +85,7 @@ import BookmarksService from '@/services/BookmarksService'
         try {
           this.bookmark = (await BookmarksService.post({
             songId: this.song.id,
-            userId: this.$store.state.user.id
+            userId: this.user.id
           })).data
         } catch (error) {
           console.log('bookmark err')
@@ -92,6 +93,7 @@ import BookmarksService from '@/services/BookmarksService'
       },
       async unsetBookmark() {
         try {
+          console.log(this.bookmark)
           await BookmarksService.delete(this.bookmark.id)
           this.bookmark = null
         } catch (error) {
@@ -105,11 +107,13 @@ import BookmarksService from '@/services/BookmarksService'
           return
         }
         try {
-          this.bookmark = (await BookmarksService.index({
+          const bookmarks = (await BookmarksService.index({
             songId: this.song.id,
-            userId: this.$store.state.user.id
+            userId: this.user.id
           })).data
-          console.log('watch whether user bookmark the current song', this.bookmark)
+          if(bookmarks.length) {
+            this.bookmark = bookmarks[0]
+          }
         } catch (error) {
           console.log('error when getting bookmarks in mounted hook')
         }
