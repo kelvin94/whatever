@@ -14,7 +14,6 @@ function hashPassword (user, options) {
       return bcrypt.hashAsync(user.password, salt, null)
     })
     .then((hash) => {
-      console.log('pwd', hash)
       return user.setDataValue('password', hash)
     })
 }

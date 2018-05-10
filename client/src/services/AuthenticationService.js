@@ -4,7 +4,6 @@ import Api from '@/services/Api'
 export default {
   register (credentials) {
     // 这里Api要带括号来用是因为在Api.js里面我们是当作function来export
-    console.log('credentials in AuthService', credentials)
     return Api().post('register', credentials)
   },
   login (credentials) {

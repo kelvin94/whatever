@@ -48,13 +48,11 @@ import {mapState} from 'vuex'
       // get the song id
       const songId = this.route.params.songId // store has synced with router via vuex-router-sync
       const songFromApi = await SongService.show(songId)
-      console.log(songFromApi)
       this.song = songFromApi.data
 
       if(this.isUserLoggedIn) {
         SongHistoryService.post({
-          songId: songId,
-          userId: this.user.id
+          songId: songId
         })
       }
     },

@@ -4,6 +4,7 @@ const SongsController = require('./controllers/SongsController')
 const HistoriesController = require('./controllers/HistoriesController')
 const BookmarksController = require('./controllers/BookmarksController')
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy')
+const isAuthenticated = require('./policies/isAuthenticated')
 
 module.exports = (app) => {
   // middleware needs to be passed in before the controller
@@ -19,13 +20,13 @@ module.exports = (app) => {
 
   app.put('/songs/:songId', SongsController.put)
 
-  app.get('/bookmarks', BookmarksController.index)
+  app.get('/bookmarks', isAuthenticated, BookmarksController.index)
 
-  app.post('/bookmarks', BookmarksController.post)
+  app.post('/bookmarks', isAuthenticated, BookmarksController.post)
 
-  app.delete('/bookmarks/:bookmarkId', BookmarksController.delete)
+  app.delete('/bookmarks/:bookmarkId', isAuthenticated, BookmarksController.delete)
 
-  app.get('/histories', HistoriesController.index)
+  app.get('/histories', isAuthenticated, HistoriesController.index)
 
-  app.post('/histories', HistoriesController.post)
+  app.post('/histories', isAuthenticated, HistoriesController.post)
 }

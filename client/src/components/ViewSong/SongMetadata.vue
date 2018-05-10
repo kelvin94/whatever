@@ -84,8 +84,8 @@ import BookmarksService from '@/services/BookmarksService'
       async setBookmark() {
         try {
           this.bookmark = (await BookmarksService.post({
-            songId: this.song.id,
-            userId: this.user.id
+            songId: this.song.id
+            // userId: this.user.id  no longer need this, cuz userId has been extracted from jwt token
           })).data
         } catch (error) {
           console.log('bookmark err')
@@ -93,7 +93,6 @@ import BookmarksService from '@/services/BookmarksService'
       },
       async unsetBookmark() {
         try {
-          console.log(this.bookmark)
           await BookmarksService.delete(this.bookmark.id)
           this.bookmark = null
         } catch (error) {
@@ -108,8 +107,8 @@ import BookmarksService from '@/services/BookmarksService'
         }
         try {
           const bookmarks = (await BookmarksService.index({
-            songId: this.song.id,
-            userId: this.user.id
+            songId: this.song.id
+            // userId: this.user.id no longer need this, cuz userId has been extracted from jwt token
           })).data
           if(bookmarks.length) {
             this.bookmark = bookmarks[0]

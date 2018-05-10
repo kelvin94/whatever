@@ -31,10 +31,7 @@
     },
     async mounted () {
       if(this.isUserLoggedIn) {
-        this.bookmarks = (await BookmarksService.index({
-          userId: this.user.id
-        })).data
-        console.log('this.bookmark', this.bookmarks)
+        this.bookmarks = (await BookmarksService.index()).data
       }
     },
     data() {

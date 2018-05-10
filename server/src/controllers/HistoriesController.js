@@ -5,7 +5,7 @@ module.exports = {
 
   async index (req, res) {
     try {
-      const userId = req.query.userId
+      const userId = req.user.id
       const where = {
         UserId: userId
       }
@@ -21,7 +21,6 @@ module.exports = {
         {},
         history.Song,
         history))
-      console.log('history', histories)
       res.send(_.uniqBy(histories, history => history.SongId))
     } catch (error) {
       res.status(500).send({
@@ -31,13 +30,12 @@ module.exports = {
   },
   async post (req, res) {
     try {
-      const {songId, userId} = req.body
-      console.log('post bookmark req.body', req.body)
+      const userId = req.user.id
+      const {songId} = req.body
       const newHistory = await History.create({
         SongId: songId,
         UserId: userId
       })
-      console.log('newHistory', newHistory)
       res.send(newHistory)
     } catch (error) {
       res.status(500).send({

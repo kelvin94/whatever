@@ -5,6 +5,8 @@ const morgan = require('morgan') // morga is for logging error/info mesages
 const {sequelize} = require('./models') // why we can require entire folder? Answer: https://stackoverflow.com/questions/5364928/node-js-require-all-files-in-a-folder
 const config = require('./config/config')
 
+require('./passport')
+
 const app = express()
 app.use(morgan('combined'))
 app.use(bodyParser.json()) // let express app to parse json request

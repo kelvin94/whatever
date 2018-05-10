@@ -5,9 +5,9 @@ module.exports = {
 
   async index (req, res) {
     try {
-      console.log('backend index action req.query', req.query)
       const songId = req.query.songId
-      const userId = req.query.userId
+      // const userId = req.query.userId
+      const userId = req.user.id
       const where = {
         UserId: userId
       }
@@ -26,7 +26,6 @@ module.exports = {
         {},
         bookmark.Song,
         bookmark))
-      console.log('bookmark', bookmarks)
       res.send(bookmarks)
     } catch (error) {
       res.status(500).send({
@@ -36,15 +35,14 @@ module.exports = {
   },
   async post (req, res) {
     try {
-      const {songId, userId} = req.body
-      console.log('post bookmark req.body', req.body)
+      const userId = req.user.id
+      const {songId} = req.body
       const bookmark = await Bookmark.findOne({
         where: {
           SongId: songId,
           UserId: userId
         }
       })
-      console.log('found bookmark or not in db', bookmark)
       if (bookmark) {
         return res.status(404).send({
           error: 'you already have this set as bookmark'
@@ -54,7 +52,6 @@ module.exports = {
         SongId: songId,
         UserId: userId
       })
-      console.log('newBookmark', newBookmark)
       res.send(newBookmark)
     } catch (error) {
       res.status(500).send({
@@ -64,10 +61,21 @@ module.exports = {
   },
   async delete (req, res) {
     try {
+      const userId = req.user.id
       const bookmarkId = req.params.bookmarkId
-      const bookmark = await Bookmark.findById(bookmarkId)
+      const bookmark = await Bookmark.findOne({
+        where: {
+          // 这么左可以加强一点security by checking if the user has valid access to the bookmark
+          id: bookmarkId,
+          UserId: userId
+        }
+      })
+      if (!bookmark) {
+        return res.status(403).send({
+          error: 'you donot have access to this bookmark'
+        })
+      }
       await bookmark.destroy()
-      console.log('bookmark delted', bookmark)
       res.send(bookmark)
     } catch (error) {
       res.status(500).send({
