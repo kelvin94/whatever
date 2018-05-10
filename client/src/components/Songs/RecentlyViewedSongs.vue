@@ -32,7 +32,6 @@
     async mounted () {
       if(this.isUserLoggedIn) {
         this.histories = (await SongHistoryService.index()).data
-        console.log('this.bookmark', this.histories)
       }
     },
     data() {
